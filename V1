@@ -1,10 +1,9 @@
 /* RJ2023
 
-v0.1 (2023-12-04)
- */
+v1.1 (2023-12-04)
+*/
 
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -19,80 +18,66 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
-
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
 @TeleOp(name="RJ2023", group="Linear Opmode")
 
 public class RJ2023 extends LinearOpMode {
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor motor1;
-    private DcMotorSimple motor2;
-    private DcMotor motor3;
-    private DcMotorSimple motor4;
-    private DcMotor motor5;
-    private DcMotorSimple motor6;
-    private DcMotor motor7;
-    private CRServo servo1;
-    private CRServo servo2;
-    private CRServo servo3;
+  // Declare OpMode members.
+  private ElapsedTime runtime = new ElapsedTime();
+  private DcMotor motor1;
+  private DcMotorSimple motor2;
+  private DcMotor motor3;
+  private DcMotorSimple motor4;
+  private DcMotor motor5;
+  private DcMotorSimple motor6;
+  private DcMotor motor7;
+  private CRServo servo1;
+  private CRServo servo2;
+  private CRServo servo3;
 
-    @Override
-    public void runOpMode() {
-      telemetry.addData("Status", "Initialized");
-      telemetry.update();
+  @Override
+  public void runOpMode() {
+  telemetry.addData("Status", "Initialized");
+  telemetry.update();
       
 
 
-      // Initialize the hardware variables. Not that the strings used here as parameters
-      // to 'get' must correspond to the names assigned during the robot configuration
-      // step (using the FTC Robot Controller app on the phone).
-      motor1 = hardwareMap.get(DcMotor.class, "motor1");
-      motor2 = hardwareMap.get(DcMotorSimple.class, "motor2");
-      motor3 = hardwareMap.get(DcMotor.class, "motor3");
-      motor4 = hardwareMap.get(DcMotorSimple.class, "motor4");
-      motor5 = hardwareMap.get(DcMotor.class, "motor5");
-      motor6 = hardwareMap.get(DcMotorSimple.class, "motor6");
-      motor7 = hardwareMap.get(DcMotor.class, "motor7");
-      servo1 = hardwareMap.get(CRServo.class, "servo1");
-      servo2 = hardwareMap.get(CRServo.class, "servo2");
-        servo3 = hardwareMap.get(CRServo.class, "servo3");
+  // Initialize the hardware variables. Not that the strings used here as parameters
+  // to 'get' must correspond to the names assigned during the robot configuration
+  // step (using the FTC Robot Controller app on the phone).
+    motor1 = hardwareMap.get(DcMotor.class, "motor1");
+    motor2 = hardwareMap.get(DcMotorSimple.class, "motor2");
+    motor3 = hardwareMap.get(DcMotor.class, "motor3");
+    motor4 = hardwareMap.get(DcMotorSimple.class, "motor4");
+    motor5 = hardwareMap.get(DcMotor.class, "motor5");
+    motor6 = hardwareMap.get(DcMotorSimple.class, "motor6");
+    motor7 = hardwareMap.get(DcMotor.class, "motor7");
+    servo1 = hardwareMap.get(CRServo.class, "servo1");
+    servo2 = hardwareMap.get(CRServo.class, "servo2");
+    servo3 = hardwareMap.get(CRServo.class, "servo3");
 
-      // Most robots need the motor on one side to be reversed to drive forward
-      // Reverse the motor that runs backwards when connected directly to the battery
-      motor1.setDirection(DcMotor.Direction.FORWARD);
-      motor2.setDirection(DcMotorSimple.Direction.FORWARD);
-      motor3.setDirection(DcMotor.Direction.REVERSE);
-      motor4.setDirection(DcMotorSimple.Direction.REVERSE);
-      motor5.setDirection(DcMotor.Direction.FORWARD);
-      motor6.setDirection(DcMotorSimple.Direction.FORWARD);
-      motor7.setDirection(DcMotor.Direction.FORWARD);
-      servo1.setDirection(CRServo.Direction.FORWARD);
-      servo2.setDirection(CRServo.Direction.REVERSE);
-      servo3.setDirection(CRServo.Direction.FORWARD);
+    // Most robots need the motor on one side to be reversed to drive forward
+    // Reverse the motor that runs backwards when connected directly to the battery
+    motor1.setDirection(DcMotor.Direction.FORWARD);
+    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+    motor3.setDirection(DcMotor.Direction.REVERSE);
+    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+    motor5.setDirection(DcMotor.Direction.FORWARD);
+    motor6.setDirection(DcMotorSimple.Direction.FORWARD);
+    motor7.setDirection(DcMotor.Direction.FORWARD);
+    servo1.setDirection(CRServo.Direction.FORWARD);
+    servo2.setDirection(CRServo.Direction.REVERSE);
+    servo3.setDirection(CRServo.Direction.FORWARD);
       
     
 
     // Brake mode settings
     motor5.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-      // Wait for the game to start (driver presses PLAY)
-      waitForStart();
-      runtime.reset();
-      int driveMode = 0;
+    // Wait for the game to start (driver presses PLAY)
+    waitForStart();
+    runtime.reset();
+    int driveMode = 0;
 
       // run until the end of the match (driver presses STOP)
       while (opModeIsActive()) {
