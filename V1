@@ -119,7 +119,7 @@ public class RJ2023 extends LinearOpMode {
       {
         servoPower3 = 1.0;
       }
-	  if (gamepad2.b)
+	  else
       {
         servoPower3 = 0.0;
       }
@@ -142,12 +142,11 @@ public class RJ2023 extends LinearOpMode {
 
       // Triangle and square code for gamepad1/driver & motor7+8
       double motorpower7 = 0.0;
-      double motorpower8 = 0.0;
-      if (gamepad1.x || gamepad2.x)
+      if (gamepad1.a || gamepad2.b)
         {
         motorpower7 = 1.0;
         }
-      else if (gamepad1.y || gamepad2.y)
+      else if (gamepad1.a || gamepad2.b)
         {
           motorpower7 = -1.0;
         }
@@ -176,11 +175,11 @@ public class RJ2023 extends LinearOpMode {
 
       
       // Show the elapsed game time and wheel power.
-      telemetry.addData("Status", "Run Time: " + runtime.toString());
+      // telemetry.addData("Status", "Run Time: " + runtime.toString());
       // telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-      telemetry.addData("Motors", "motor5 (%.2f), motor6 (%.2f), motor7 (%.2f), motor8 (%.2f)", motorpower5, motorpower6, motorpower7);
-      telemetry.addData("Servos", "servo1 (%.2f), servo2 (%.2f)", servoPower1, servoPower2);
-      telemetry.update();
+      // telemetry.addData("Motors", "motor5 (%.2f), motor6 (%.2f), motor7 (%.2f), motor8 (%.2f)", motorpower5, motorpower6, motorpower7);
+      // telemetry.addData("Servos", "servo1 (%.2f), servo2 (%.2f)", servoPower1, servoPower2);
+      // telemetry.update();
     }
   }
   }
