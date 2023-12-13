@@ -69,8 +69,6 @@ public class RJ2023 extends LinearOpMode {
     servo2.setDirection(CRServo.Direction.REVERSE);
     servo3.setDirection(CRServo.Direction.FORWARD);
       
-    
-
     // Brake mode settings
     motor5.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -95,42 +93,24 @@ public class RJ2023 extends LinearOpMode {
         motor1.setPower(leftpower);
         motor3.setPower(rightpower);
 
-      // Bumper code for gamepad1/Driver
-      double servoPower2 = 0.0;
-      double servoPower1 = 0.0;
-      double servoPower3 = 0.0;
-      if (gamepad1.left_bumper || gamepad2.left_bumper)
-        {
-          servoPower2 = 1.0;
-          
-        }
-        else if (gamepad1.right_bumper)
-        {
-          servoPower2 = -1.0;
-     
-        }
-
-       else if (gamepad2.right_bumper)
-        {
-          
-          servoPower2 = -1.0;
-        }
-        else if (gamepad2.dpad_up || gamepad2.dpad_right)
-        {
-          servoPower1 = 1.0;
-        }
-
-      else if (gamepad2.dpad_left || gamepad2.dpad_down)
-        {
-          servoPower1 = -1.0;
-        }
+      // Actuator Control: Servos
       
-      else 
-        {
-          servoPower1 = 0.0;
-          servoPower2 = 0.0;
-          
-        }
+      double servoPower1 = 0.0;
+      double servoPower2 = 0.0;
+      double servoPower3 = 0.0;
+
+      if (gamepad1.left_bumper || gamepad2.left_bumper)             {servoPower1 = 1.0;}
+        else if (gamepad1.right_bumper || gamepad2.right_bumper)    {servoPower1 = -1.0;}
+
+        else if (gamepad1.dpad_up || gamepad2.dpad_up)              {servoPower2 = 1.0;}
+        else if (gamepad1.dpad_down || gamepad2.dpad_down)          {servoPower2 = -1.0;}
+
+        else 
+          {
+            servoPower1 = 0.0;
+            servoPower2 = 0.0;
+          }
+      
       if (gamepad2.y)
       {
         servoPower3 = -1.0;
@@ -156,8 +136,8 @@ public class RJ2023 extends LinearOpMode {
       motorpower5 = gamepad1.right_trigger - gamepad1.left_trigger + gamepad2.right_trigger - gamepad2.left_trigger;
       motorpower6 = motorpower5;
      
-      motor5.setPower(motorpower5*0.35);
-      motor6.setPower(-motorpower6*-0.35);
+      motor5.setPower(motorpower5*0.5);
+      motor6.setPower(-motorpower6*-0.5);
 
 
       // Triangle and square code for gamepad1/driver & motor7+8
