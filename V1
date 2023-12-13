@@ -142,11 +142,11 @@ public class RJ2023 extends LinearOpMode {
 
       // Triangle and square code for gamepad1/driver & motor7+8
       double motorpower7 = 0.0;
-      if (gamepad1.a || gamepad2.b)
+      if (gamepad1.a || gamepad2.a)
         {
         motorpower7 = 1.0;
         }
-      else if (gamepad1.a || gamepad2.b)
+      else if (gamepad1.b || gamepad2.b)
         {
           motorpower7 = -1.0;
         }
