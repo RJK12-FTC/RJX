@@ -138,11 +138,14 @@ public class RJ2023 extends LinearOpMode {
 
 
       // Motor Control: A & B Buttons
+
       double motorpowerM3 = 0.0;
+
       if (gamepad1.a || gamepad2.a)
         {
-        motorpowerM3 = 1.0;
+          motorpowerM3 = 1.0;
         }
+      
       else if (gamepad1.b || gamepad2.b)
         {
           motorpowerM3 = -1.0;
@@ -152,6 +155,7 @@ public class RJ2023 extends LinearOpMode {
       {
           motorpowerM3 = 0.0;
       }
+
       motorM3.setPower(motorpowerM3);
 
 
