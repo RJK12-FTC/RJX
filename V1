@@ -40,8 +40,6 @@ public class RJ2023 extends LinearOpMode {
   telemetry.addData("Status", "Initialized");
   telemetry.update();
       
-
-
   // Initialize the hardware variables
     motorM0 = hardwareMap.get(DcMotor.class, "motorM0"); // Drivetrain - left side
     motorM1 = hardwareMap.get(DcMotor.class, "motorM1"); // Drivetrain - right side
