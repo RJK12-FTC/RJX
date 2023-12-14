@@ -52,8 +52,7 @@ public class RJ2023 extends LinearOpMode {
     servoS4 = hardwareMap.get(CRServo.class, "servoS4");
     servoS5 = hardwareMap.get(CRServo.class, "servoS5");
 
-    // Most robots need the motor on one side to be reversed to drive forward
-    // Reverse the motor that runs backwards when connected directly to the battery
+    // Set direction
     motorM0.setDirection(DcMotor.Direction.FORWARD);
     motorS0.setDirection(DcMotorSimple.Direction.FORWARD);
     motorM1.setDirection(DcMotor.Direction.REVERSE);
@@ -76,103 +75,103 @@ public class RJ2023 extends LinearOpMode {
       // run until the end of the match (driver presses STOP)
       while (opModeIsActive()) {
 
-      // Drivetrain - Split Arcade    
+        // Drivetrain - Split Arcade    
 
-      double leftpower;//variable created for the drive computation
-      double rightpower;//variable created for drive computation
+        double leftpower;//variable created for the drive computation
+        double rightpower;//variable created for drive computation
+          
+        leftpower = gamepad1.left_stick_y - gamepad1.right_stick_x;
+        rightpower = gamepad1.left_stick_y + gamepad1.right_stick_x;
+          
+        motorM0.setPower(leftpower);
+        motorM1.setPower(rightpower);
+
+        // Actuator Control: Servos
         
-      leftpower = gamepad1.left_stick_y - gamepad1.right_stick_x;
-      rightpower = gamepad1.left_stick_y + gamepad1.right_stick_x;
+        double servoPowerS3 = 0.0;
+        double servoPowerS4 = 0.0;
+        double servoPowerS5 = 0.0;
+
+        if (gamepad1.left_bumper || gamepad2.left_bumper) {
+            servoPowerS3 = 1.0;
+          }
+        else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+            servoPowerS3 = -1.0;
+          }
+
+        if (gamepad1.dpad_up || gamepad2.dpad_up) {
+            servoPowerS4 = 1.0;
+          }
+        else if (gamepad1.dpad_down || gamepad2.dpad_down) {
+            servoPowerS4 = -1.0;
+          }
         
-      motorM0.setPower(leftpower);
-      motorM1.setPower(rightpower);
+        if (gamepad2.y) {
+            servoPowerS5 = -1.0;
+          }
+        else if (gamepad2.x) {
+            servoPowerS5 = 1.0;
+          }
 
-      // Actuator Control: Servos
+        else {
+            servoPowerS3 = 0.0;
+            servoPowerS4 = 0.0;
+            servoPowerS5 = 0.0;
+          }
+        
+        servoS3.setPower(servoPowerS3);
+        servoS4.setPower(servoPowerS4);
+        servoS5.setPower(servoPowerS5);
+
+        // Trigger code for gamepad1/driver & motor5+6
+        double motorpowerM2 = 0.0;
+        double motorpowerS2 = 0.0;
+
+        motorpowerM2 = gamepad1.right_trigger - gamepad1.left_trigger + gamepad2.right_trigger - gamepad2.left_trigger;
+        motorpowerS2 = motorpowerM2;
       
-      double servoPowerS3 = 0.0;
-      double servoPowerS4 = 0.0;
-      double servoPowerS5 = 0.0;
-
-      if (gamepad1.left_bumper || gamepad2.left_bumper) {
-          servoPowerS3 = 1.0;
-        }
-      else if (gamepad1.right_bumper || gamepad2.right_bumper) {
-          servoPowerS3 = -1.0;
-        }
-
-      if (gamepad1.dpad_up || gamepad2.dpad_up) {
-          servoPowerS4 = 1.0;
-        }
-      else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-          servoPowerS4 = -1.0;
-        }
-      
-      if (gamepad2.y) {
-          servoPowerS5 = -1.0;
-        }
-      else if (gamepad2.x) {
-          servoPowerS5 = 1.0;
-        }
-
-      else {
-          servoPowerS3 = 0.0;
-          servoPowerS4 = 0.0;
-          servoPowerS5 = 0.0;
-        }
-      
-      servoS3.setPower(servoPowerS3);
-      servoS4.setPower(servoPowerS4);
-      servoS5.setPower(servoPowerS5);
-
-      // Trigger code for gamepad1/driver & motor5+6
-      double motorpowerM2 = 0.0;
-      double motorpowerS2 = 0.0;
-
-      motorpowerM2 = gamepad1.right_trigger - gamepad1.left_trigger + gamepad2.right_trigger - gamepad2.left_trigger;
-      motorpowerS2 = motorpowerM2;
-     
-      motorM2.setPower(motorpowerM2*0.5);
-      motorS2.setPower(-motorpowerS2*-0.5);
+        motorM2.setPower(motorpowerM2*0.5);
+        motorS2.setPower(-motorpowerS2*-0.5);
 
 
-      // Motor Control: A & B Buttons
+        // Motor Control: A & B Buttons
 
-      double motorpowerM3 = 0.0;
+        double motorpowerM3 = 0.0;
 
-      if (gamepad1.a || gamepad2.a)
+        if (gamepad1.a || gamepad2.a)
+          {
+            motorpowerM3 = 1.0;
+          }
+        
+        else if (gamepad1.b || gamepad2.b)
+          {
+            motorpowerM3 = -1.0;
+          }
+
+        else 
         {
-          motorpowerM3 = 1.0;
+            motorpowerM3 = 0.0;
         }
+
+        motorM3.setPower(motorpowerM3);
+
+
+        // Stick code for gamepad2/operator & motor5+6
+        /*
+        double motorpower5drive =  gamepad2.left_stick_y;
+        motorpower5 = Range.clip(motorpower5drive, -1.0, 1.0);
+        motor5.setPower(motorpower5);
+        double motorpower6drive =  gamepad2.right_stick_y;
+        motorpower6 = Range.clip(motorpower6drive, -1.0, 1.0);
+        motor6.setPower(motorpower6);
+        */
       
-      else if (gamepad1.b || gamepad2.b)
-        {
-          motorpowerM3 = -1.0;
-        }
-
-      else 
-      {
-          motorpowerM3 = 0.0;
-      }
-
-      motorM3.setPower(motorpowerM3);
-
-
-      // Stick code for gamepad2/operator & motor5+6
-      /*
-      double motorpower5drive =  gamepad2.left_stick_y;
-      motorpower5 = Range.clip(motorpower5drive, -1.0, 1.0);
-      motor5.setPower(motorpower5);
-      double motorpower6drive =  gamepad2.right_stick_y;
-      motorpower6 = Range.clip(motorpower6drive, -1.0, 1.0);
-      motor6.setPower(motorpower6);
-      */
-     
-      // Show the elapsed game time and wheel power.
-      // telemetry.addData("Status", "Run Time: " + runtime.toString());
-      // telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-      // telemetry.addData("Motors", "motor5 (%.2f), motor6 (%.2f), motor7 (%.2f), motor8 (%.2f)", motorpower5, motorpower6, motorpower7);
-      // telemetry.addData("Servos", "servo1 (%.2f), servo2 (%.2f)", servoPower1, servoPower2);
-      // telemetry.update();
+        // Show the elapsed game time and wheel power.
+        // telemetry.addData("Status", "Run Time: " + runtime.toString());
+        // telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        // telemetry.addData("Motors", "motor5 (%.2f), motor6 (%.2f), motor7 (%.2f), motor8 (%.2f)", motorpower5, motorpower6, motorpower7);
+        // telemetry.addData("Servos", "servo1 (%.2f), servo2 (%.2f)", servoPower1, servoPower2);
+        // telemetry.update();
     }
   }
   }
