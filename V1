@@ -1,6 +1,6 @@
 /*
   RJ2023
-  v1.1 (2023-12-04)
+  v1.5 (2023-12-14)
 */
 
 package org.firstinspires.ftc.teamcode;
@@ -80,18 +80,16 @@ public class RJ2023 extends LinearOpMode {
       // run until the end of the match (driver presses STOP)
       while (opModeIsActive()) {
           
-
-        double leftpower;//variable created for the drive computation
-        double rightpower;//variable created for drive computation
+      double leftpower;//variable created for the drive computation
+      double rightpower;//variable created for drive computation
         
-        //split arcade drive computation (default)
+      //split arcade drive computation (default)
         
-
-        leftpower = gamepad1.left_stick_y - gamepad1.right_stick_x;
-        rightpower = gamepad1.left_stick_y + gamepad1.right_stick_x;
+      leftpower = gamepad1.left_stick_y - gamepad1.right_stick_x;
+      rightpower = gamepad1.left_stick_y + gamepad1.right_stick_x;
         
-        motor1.setPower(leftpower);
-        motor3.setPower(rightpower);
+      motor1.setPower(leftpower);
+      motor3.setPower(rightpower);
 
       // Actuator Control: Servos
       
@@ -99,35 +97,36 @@ public class RJ2023 extends LinearOpMode {
       double servoPower2 = 0.0;
       double servoPower3 = 0.0;
 
-      if (gamepad1.left_bumper || gamepad2.left_bumper)             {servoPower1 = 1.0;}
-        else if (gamepad1.right_bumper || gamepad2.right_bumper)    {servoPower1 = -1.0;}
+      servo1.setPower(servoPower1);
+      servo2.setPower(servoPower2);
+      servo3.setPower(servoPower3);
 
-        else if (gamepad1.dpad_up || gamepad2.dpad_up)              {servoPower2 = 1.0;}
-        else if (gamepad1.dpad_down || gamepad2.dpad_down)          {servoPower2 = -1.0;}
+      if (gamepad1.left_bumper || gamepad2.left_bumper) {
+          servoPower1 = 1.0;
+        }
+      else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+          servoPower1 = -1.0;
+        }
 
-        else 
-          {
-            servoPower1 = 0.0;
-            servoPower2 = 0.0;
-          }
+      if (gamepad1.dpad_up || gamepad2.dpad_up) {
+          servoPower2 = 1.0;
+        }
+      else if (gamepad1.dpad_down || gamepad2.dpad_down) {
+          servoPower2 = -1.0;
+        }
       
-      if (gamepad2.y)
-      {
-        servoPower3 = -1.0;
-      }
-      if (gamepad2.x)
-      {
-        servoPower3 = 1.0;
-      }
-	  else
-      {
-        servoPower3 = 0.0;
-      }
-        servo1.setPower(servoPower1);
-        servo2.setPower(servoPower2);
-        servo3.setPower(servoPower3);
-        
-  
+      if (gamepad2.y) {
+          servoPower3 = -1.0;
+        }
+      else if (gamepad2.x) {
+          servoPower3 = 1.0;
+        }
+
+      else {
+          servoPower1 = 0.0;
+          servoPower2 = 0.0;
+          servoPower3 = 0.0;
+        }
 
       // Trigger code for gamepad1/driver & motor5+6
       double motorpower5 = 0.0;
