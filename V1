@@ -24,16 +24,16 @@ public class RJ2023 extends LinearOpMode {
 
   // Declare OpMode members.
   private ElapsedTime runtime = new ElapsedTime();
-  private DcMotor motor1;
-  private DcMotorSimple motor2;
-  private DcMotor motor3;
-  private DcMotorSimple motor4;
-  private DcMotor motor5;
-  private DcMotorSimple motor6;
-  private DcMotor motor7;
-  private CRServo servo1;
-  private CRServo servo2;
-  private CRServo servo3;
+  private DcMotor motorM0;
+  private DcMotorSimple motorS0;
+  private DcMotor motorM1;
+  private DcMotorSimple motorS1;
+  private DcMotor motorM2;
+  private DcMotorSimple motorS2;
+  private DcMotor motorM3;
+  private CRServo servoS3;
+  private CRServo servoS4;
+  private CRServo servoS5;
 
   @Override
   public void runOpMode() {
@@ -42,35 +42,33 @@ public class RJ2023 extends LinearOpMode {
       
 
 
-  // Initialize the hardware variables. Not that the strings used here as parameters
-  // to 'get' must correspond to the names assigned during the robot configuration
-  // step (using the FTC Robot Controller app on the phone).
-    motor1 = hardwareMap.get(DcMotor.class, "motor1");
-    motor2 = hardwareMap.get(DcMotorSimple.class, "motor2");
-    motor3 = hardwareMap.get(DcMotor.class, "motor3");
-    motor4 = hardwareMap.get(DcMotorSimple.class, "motor4");
-    motor5 = hardwareMap.get(DcMotor.class, "motor5");
-    motor6 = hardwareMap.get(DcMotorSimple.class, "motor6");
-    motor7 = hardwareMap.get(DcMotor.class, "motor7");
-    servo1 = hardwareMap.get(CRServo.class, "servo1");
-    servo2 = hardwareMap.get(CRServo.class, "servo2");
-    servo3 = hardwareMap.get(CRServo.class, "servo3");
+  // Initialize the hardware variables
+    motorM0 = hardwareMap.get(DcMotor.class, "motorM0"); // Drivetrain - left side
+    motorM1 = hardwareMap.get(DcMotor.class, "motorM1"); // Drivetrain - right side
+    motorM2 = hardwareMap.get(DcMotor.class, "motorM2");
+    motorM3 = hardwareMap.get(DcMotor.class, "motorM3");
+    motorS0 = hardwareMap.get(DcMotorSimple.class, "motorS0"); // Drivetrain - add'l left side
+    motorS1 = hardwareMap.get(DcMotorSimple.class, "motorS1"); // Drivetrain - add'l right side
+    motorS2 = hardwareMap.get(DcMotorSimple.class, "motorS2");
+    servoS3 = hardwareMap.get(CRServo.class, "servoS3");
+    servoS4 = hardwareMap.get(CRServo.class, "servoS4");
+    servoS5 = hardwareMap.get(CRServo.class, "servoS5");
 
     // Most robots need the motor on one side to be reversed to drive forward
     // Reverse the motor that runs backwards when connected directly to the battery
-    motor1.setDirection(DcMotor.Direction.FORWARD);
-    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
-    motor3.setDirection(DcMotor.Direction.REVERSE);
-    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
-    motor5.setDirection(DcMotor.Direction.FORWARD);
-    motor6.setDirection(DcMotorSimple.Direction.FORWARD);
-    motor7.setDirection(DcMotor.Direction.FORWARD);
-    servo1.setDirection(CRServo.Direction.FORWARD);
-    servo2.setDirection(CRServo.Direction.REVERSE);
-    servo3.setDirection(CRServo.Direction.FORWARD);
+    motorM0.setDirection(DcMotor.Direction.FORWARD);
+    motorS0.setDirection(DcMotorSimple.Direction.FORWARD);
+    motorM1.setDirection(DcMotor.Direction.REVERSE);
+    motorS1.setDirection(DcMotorSimple.Direction.REVERSE);
+    motorM2.setDirection(DcMotor.Direction.FORWARD);
+    motorS2.setDirection(DcMotorSimple.Direction.FORWARD);
+    motorM3.setDirection(DcMotor.Direction.FORWARD);
+    servoS3.setDirection(CRServo.Direction.FORWARD);
+    servoS4.setDirection(CRServo.Direction.REVERSE);
+    servoS5.setDirection(CRServo.Direction.FORWARD);
       
     // Brake mode settings
-    motor5.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    motorM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     // Wait for the game to start (driver presses PLAY)
     waitForStart();
@@ -79,89 +77,85 @@ public class RJ2023 extends LinearOpMode {
 
       // run until the end of the match (driver presses STOP)
       while (opModeIsActive()) {
-          
+
+      // Drivetrain - Split Arcade    
+
       double leftpower;//variable created for the drive computation
       double rightpower;//variable created for drive computation
-        
-      //split arcade drive computation (default)
         
       leftpower = gamepad1.left_stick_y - gamepad1.right_stick_x;
       rightpower = gamepad1.left_stick_y + gamepad1.right_stick_x;
         
-      motor1.setPower(leftpower);
-      motor3.setPower(rightpower);
+      motorM0.setPower(leftpower);
+      motorM1.setPower(rightpower);
 
       // Actuator Control: Servos
       
-      double servoPower1 = 0.0;
-      double servoPower2 = 0.0;
-      double servoPower3 = 0.0;
-
-      servo1.setPower(servoPower1);
-      servo2.setPower(servoPower2);
-      servo3.setPower(servoPower3);
+      double servoPowerS3 = 0.0;
+      double servoPowerS4 = 0.0;
+      double servoPowerS5 = 0.0;
 
       if (gamepad1.left_bumper || gamepad2.left_bumper) {
-          servoPower1 = 1.0;
+          servoPowerS3 = 1.0;
         }
       else if (gamepad1.right_bumper || gamepad2.right_bumper) {
-          servoPower1 = -1.0;
+          servoPowerS3 = -1.0;
         }
 
       if (gamepad1.dpad_up || gamepad2.dpad_up) {
-          servoPower2 = 1.0;
+          servoPowerS4 = 1.0;
         }
       else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-          servoPower2 = -1.0;
+          servoPowerS4 = -1.0;
         }
       
       if (gamepad2.y) {
-          servoPower3 = -1.0;
+          servoPowerS5 = -1.0;
         }
       else if (gamepad2.x) {
-          servoPower3 = 1.0;
+          servoPowerS5 = 1.0;
         }
 
       else {
-          servoPower1 = 0.0;
-          servoPower2 = 0.0;
-          servoPower3 = 0.0;
+          servoPowerS3 = 0.0;
+          servoPowerS4 = 0.0;
+          servoPowerS5 = 0.0;
         }
+      
+      servoS3.setPower(servoPowerS3);
+      servoS4.setPower(servoPowerS4);
+      servoS5.setPower(servoPowerS5);
 
       // Trigger code for gamepad1/driver & motor5+6
-      double motorpower5 = 0.0;
-      double motorpower6 = 0.0;
+      double motorpowerM2 = 0.0;
+      double motorpowerS2 = 0.0;
 
-      motorpower5 = gamepad1.right_trigger - gamepad1.left_trigger + gamepad2.right_trigger - gamepad2.left_trigger;
-      motorpower6 = motorpower5;
+      motorpowerM2 = gamepad1.right_trigger - gamepad1.left_trigger + gamepad2.right_trigger - gamepad2.left_trigger;
+      motorpowerS2 = motorpowerM2;
      
-      motor5.setPower(motorpower5*0.5);
-      motor6.setPower(-motorpower6*-0.5);
+      motorM2.setPower(motorpowerM2*0.5);
+      motorS2.setPower(-motorpowerS2*-0.5);
 
 
-      // Triangle and square code for gamepad1/driver & motor7+8
-      double motorpower7 = 0.0;
+      // Motor Control: A & B Buttons
+      double motorpowerM3 = 0.0;
       if (gamepad1.a || gamepad2.a)
         {
-        motorpower7 = 1.0;
+        motorpowerM3 = 1.0;
         }
       else if (gamepad1.b || gamepad2.b)
         {
-          motorpower7 = -1.0;
+          motorpowerM3 = -1.0;
         }
 
       else 
       {
-          motorpower7 = 0.0;
+          motorpowerM3 = 0.0;
       }
-      motor7.setPower(motorpower7);
+      motorM3.setPower(motorpowerM3);
 
 
-
-
-    
       // Stick code for gamepad2/operator & motor5+6
-      // TODO: Make a criteria to swtich into different drive mode
       /*
       double motorpower5drive =  gamepad2.left_stick_y;
       motorpower5 = Range.clip(motorpower5drive, -1.0, 1.0);
@@ -171,8 +165,6 @@ public class RJ2023 extends LinearOpMode {
       motor6.setPower(motorpower6);
       */
      
-
-      
       // Show the elapsed game time and wheel power.
       // telemetry.addData("Status", "Run Time: " + runtime.toString());
       // telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
